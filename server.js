@@ -4,8 +4,10 @@ const PORT = process.env.PORT ?? 3001;
 const app = express();
 const notes = require('./db/db.json');
 const fs = require('fs');
+
+// require uuid package to generate unique id
+//code found at https://www.npmjs.com/package/uuid
 const { v4: uuidv4 } = require('uuid');
-const { log } = require('console');
 
 
 app.use(express.json());
@@ -21,6 +23,7 @@ app.get('/api/notes', (req, res) => {
 })
 
 app.post('/api/notes', (req, res) => {
+    //generate unique ID from UUID package (https://www.npmjs.com/package/uuid)
     req.body.id = uuidv4();
     notes.push(req.body);
     fs.writeFileSync('./db/db.json', JSON.stringify(notes));
